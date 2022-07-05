@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: 
+  "We are creating a cloudfront distrubution and s3 as origin to server as a Static web service platform"
+
+Metadata:
+  DisributionInfo:
+    Description: We need to deploy s3_staticwebhosting before deplying this script.  
+
+#(Optional)
+# Parameters:
+#   ParameterLogicalID:
+#     Type: DataType
+#     ParameterProperty: value
+Parameters:
+  s3_bucket_name:
+    Type: String
+
+#(Optional)
+Rules:
+  set of rules
+
+#(Optional)
+# Mappings: 
+#   Mapping01: 
+#     Key01: 
+#       Name: Value01
+#     Key02: 
+#       Name: Value02
+#     Key03: 
+#       Name: Value03
+#!FindInMap [Mapping01, !Ref "Key01", Name]
+Mappings:
+  set of mappings
+
+#(Optional)
+# Conditions:
+#   Logical ID:
+#     Intrinsic function
+Conditions:
+  set of conditions
+
+#(Optional)
+Transform:
+  set of transforms
+
+#(Required)
+# Resources:
+#   Logical ID:
+#     Type: Resource type
+#     Properties:
+#       Set of properties
+Resources:
+  set of resources
+
+#(Optional)
+# Outputs:
+#   Logical ID:
+#     Description: Information about the value
+#     Value: Value to return
+#     Export:
+#       Name: Name of resource to export
+Outputs:
+  set of outputs

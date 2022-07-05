@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: 
+  "We are creating a simple s3 which is configured to serve as a Static web hosting platform"
+
+Metadata:
+  S3_Bucket:
+    Des: "Please use a bucket name complient with the S3 DNS"
+
+Parameters:
+  S3BucketEnv:
+    Type: String
+    AllowedValues:
+      - TST
+      - PRD
+
+Mappings:
+  S3BucketName:
+    TST:
+      Name: qazx-tst
+    PRD:
+      Name: qazx-prd
+
+Resources:
+  WebHostingBucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: 'AES256'
+      BucketName: !FindInMap [S3BucketName, !Ref S3BucketEnv, Name]
+      # OwnershipControls: 
+      #   OwnershipControls
+      PublicAccessBlockConfiguration: 
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+      # Tags: 
+      #   - Tag
+      WebsiteConfiguration: 
+        IndexDocument: index.html
+        ErrorDocument: error.html
+  WebHostingBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties: 
+      Bucket: !Ref WebHostingBucket
+      PolicyDocument: 
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Principal: '*'
+            Resource:
+              - !Join
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref WebHostingBucket
+                  - '/*'
+
+Outputs:
+  OutS3BucketName:
+    Description: Name of the Bucket
+    Value: !Ref WebHostingBucket
+    Export:
+      Name: OutS3BucketName
+  OutS3BucketEndpoint:
+    Description: Name of the Bucket
+    Value: !GetAtt WebHostingBucket.WebsiteURL    
+    Export:
+      Name: OutS3BucketEndpoint 
